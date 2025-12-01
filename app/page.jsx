@@ -24,6 +24,9 @@ export default function Page() {
   const timerRef = useRef(null);
   const [zoom, setZoom] = useState(initialView.zoom);
   const [bounds, setBounds] = useState(null);
+  const [clusterSelection, setClusterSelection] = useState(null);
+// null = no cluster selected, show all articles in view
+
 
   const handleViewStateChange = ({ viewState }) => {
   setZoom(viewState.zoom);
@@ -119,6 +122,16 @@ const filteredData = useMemo(() => {
   });
 }, [enriched, lower, upper, matched]);
 
+// Data used specifically for the Results panel
+const listData = useMemo(() => {
+  if (!clusterSelection) return filteredData;
+  return filteredData.filter(f => clusterSelection.has(f._i));
+}, [filteredData, clusterSelection]);
+
+// 4. RESET cluster selection when filters change
+useEffect(() => {
+  setClusterSelection(null);
+}, [lower, upper, matched]);
 
 const points = useMemo(() =>
   filteredData.map(f => ({
@@ -203,26 +216,34 @@ const fireIcons = useMemo(() => {
     getIcon: d => d.properties.cluster
       ? { url: "/icons/cluster.png", width: 64, height: 64, anchorY: 64 }
       : { url: "/icons/sign.png", width: 64, height: 64, anchorY: 64 },
-    onClick: info => {
-      const obj = info.object;
-      if (obj.properties.cluster) {
-        // Zoom in on cluster
-        const expansionZoom = cluster.getClusterExpansionZoom(obj.properties.cluster_id);
-        const [longitude, latitude] = obj.geometry.coordinates;
-        // You may want to use DeckGL's view state update here:
-        setZoom(expansionZoom);
-        setBounds([
-          [longitude - 2, latitude - 2],
-          [longitude + 2, latitude + 2]
-        ]);
-      } else {
-        setSelected(obj);
-      }
+   onClick: info => {
+  const obj = info.object;
+  if (!obj) return;
+
+  if (obj.properties.cluster) {
+    // Optional: keep your zoom behaviour if you want
+    const expansionZoom = cluster.getClusterExpansionZoom(obj.properties.cluster_id);
+    const [longitude, latitude] = obj.geometry.coordinates;
+    setZoom(expansionZoom);
+    setBounds([
+      [longitude - 2, latitude - 2],
+      [longitude + 2, latitude + 2]
+    ]);
+
+    // New: restrict Results to exactly this cluster's articles
+    const leaves = cluster.getLeaves(obj.properties.cluster_id, Infinity);
+    const ids = new Set(leaves.map(f => f.properties._i));
+    setClusterSelection(ids);
+  } else {
+    // Clicked a single point, not a cluster
+    if (typeof obj.properties._i === "number") {
+      // Show just this one article in the Results panel
+      setClusterSelection(new Set([obj.properties._i]));
     }
+  }
+}
   });
 }, [clusters, zoom, cluster]);
-
-
   return (
     <div id="map" className="relative h-screen">
       <MapProvider>
@@ -347,14 +368,27 @@ const fireIcons = useMemo(() => {
 {/* Results drawer */}
 <aside className="absolute right-4 top-4 w-[420px]">
   <Panel>
-    <h2 className="font-semibold text-lg mb-2">Results</h2>
+    <div className="flex items-center justify-between mb-2">
+      <h2 className="font-semibold text-lg">Results</h2>
+      {clusterSelection && (
+        <button
+          className="text-xs text-gray-600 hover:underline"
+          onClick={() => setClusterSelection(null)}
+        >
+          Clear selection
+        </button>
+      )}
+    </div>
+
     <div
       className="flex flex-col gap-4 overflow-y-auto"
       style={{ maxHeight: "80vh", minHeight: "300px" }}
     >
-      {filteredData.map((item) => (
+      {listData.map(item => (
         <div key={item._i} className="border-b pb-4 last:border-b-0 last:pb-0">
-          <h3 className="font-semibold text-base">{item.properties.title || "Article"}</h3>
+          <h3 className="font-semibold text-base">
+            {item.properties.title || "Article"}
+          </h3>
           <p className="text-sm text-gray-700 mt-1">
             {item.properties.location}
             {item.properties.state ? `, ${item.properties.state}` : ""} • {item.properties.date}
@@ -362,10 +396,24 @@ const fireIcons = useMemo(() => {
           <p className="text-sm text-gray-700">{item.properties.paper}</p>
           <div className="mt-3 flex gap-3">
             {item.properties.url && (
-              <a className="btn-primary" href={item.properties.url} target="_blank" rel="noreferrer">View article</a>
+              <a
+                className="btn-primary"
+                href={item.properties.url}
+                target="_blank"
+                rel="noreferrer"
+              >
+                View article
+              </a>
             )}
             {item.properties.page_url && (
-              <a className="btn-outline" href={item.properties.page_url} target="_blank" rel="noreferrer">Newspaper page</a>
+              <a
+                className="btn-outline"
+                href={item.properties.page_url}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Newspaper page
+              </a>
             )}
           </div>
         </div>
@@ -373,6 +421,7 @@ const fireIcons = useMemo(() => {
     </div>
   </Panel>
 </aside>
+
     </div>
   );
 }
