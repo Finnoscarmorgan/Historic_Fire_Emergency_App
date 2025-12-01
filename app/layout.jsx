@@ -1,4 +1,5 @@
 import "./globals.css";
+import Link from "next/link";
 export const metadata = {
   title: "Historic Fires Near Me",
   description: "Explore historical newspaper locations over time"
@@ -28,14 +29,21 @@ function Header() {
           <span className="font-semibold tracking-wide">Historic Fires Near Me</span>
         </div>
         <nav className="hidden md:flex items-center gap-6 text-sm/none">
-          <a className="opacity-90 hover:opacity-100" href="#map">Map</a>
-          <a className="opacity-90 hover:opacity-100" href="#about">About</a>
-          <a className="opacity-90 hover:opacity-100" href="#data">Data</a>
+          <Link className="opacity-90 hover:opacity-100" href="/">
+            Map
+          </Link>
+          <Link className="opacity-90 hover:opacity-100" href="/about">
+            About
+          </Link>
+          <Link className="opacity-90 hover:opacity-100" href="/data">
+            Data
+          </Link>
         </nav>
       </div>
     </header>
   );
 }
+
 
 function AlertBar() {
   return (

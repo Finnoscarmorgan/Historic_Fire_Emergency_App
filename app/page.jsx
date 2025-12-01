@@ -216,32 +216,27 @@ const fireIcons = useMemo(() => {
     getIcon: d => d.properties.cluster
       ? { url: "/icons/cluster.png", width: 64, height: 64, anchorY: 64 }
       : { url: "/icons/sign.png", width: 64, height: 64, anchorY: 64 },
-   onClick: info => {
+ onClick: info => {
   const obj = info.object;
   if (!obj) return;
 
   if (obj.properties.cluster) {
-    // Optional: keep your zoom behaviour if you want
-    const expansionZoom = cluster.getClusterExpansionZoom(obj.properties.cluster_id);
-    const [longitude, latitude] = obj.geometry.coordinates;
-    setZoom(expansionZoom);
-    setBounds([
-      [longitude - 2, latitude - 2],
-      [longitude + 2, latitude + 2]
-    ]);
+    // Removed: cluster expansion behaviour
+    // Removed: zooming
+    // Removed: bounds shrinking
 
-    // New: restrict Results to exactly this cluster's articles
+    // New: Only update Results with the articles in this cluster
     const leaves = cluster.getLeaves(obj.properties.cluster_id, Infinity);
     const ids = new Set(leaves.map(f => f.properties._i));
     setClusterSelection(ids);
   } else {
-    // Clicked a single point, not a cluster
+    // Single article
     if (typeof obj.properties._i === "number") {
-      // Show just this one article in the Results panel
       setClusterSelection(new Set([obj.properties._i]));
     }
   }
 }
+
   });
 }, [clusters, zoom, cluster]);
   return (
