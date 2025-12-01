@@ -14,7 +14,7 @@ yarn-error.log*
 pnpm-debug.log*
 
 # large files
-public/articles.geojson
+# public/articles.geojson
 
 # Environment files
 .env
