@@ -20,7 +20,7 @@ export default function Page() {
   const [playing, setPlaying] = useState(false);
   const [query, setQuery] = useState("");
   const [monthIdx, setMonthIdx] = useState(0);
-  const [monthWindow, setMonthWindow] = useState(1);
+  const [monthWindow, setMonthWindow] = useState(12);
   const timerRef = useRef(null);
   const [zoom, setZoom] = useState(initialView.zoom);
   const [bounds, setBounds] = useState(null);
@@ -85,21 +85,40 @@ export default function Page() {
 const lower = monthIdx;
 const upper = monthIdx + Math.max(1, monthWindow - 1);
 
+// Human readable label for the selected month range
+const rangeLabel = useMemo(() => {
+  if (!enriched.length) return "";
+
+  // All features share the same _min
+  const base = enriched[0]._min; // absolute month index of _m = 0
+
+  const toAbs = mNorm => base + mNorm; // convert normalised _m back to absolute
+  const toText = absMonth => {
+    const year = Math.floor(absMonth / 12);
+    const month = absMonth % 12; // 0 = Jan
+    const names = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    return `${names[month]} ${year}`;
+  };
+
+  const startAbs = toAbs(lower);
+  const endAbs = toAbs(upper);
+
+  if (startAbs === endAbs) {
+    return `Showing ${toText(startAbs)}`;
+  }
+  return `Showing ${toText(startAbs)} to ${toText(endAbs)}`;
+}, [enriched, lower, upper]);
+
 const filteredData = useMemo(() => {
   return enriched.filter(f => {
     const inTime = f._m >= lower && f._m <= upper;
     const inText = matched ? matched.has(f._i) : true;
-    const inBounds = bounds
-      ? (
-          f.geometry.coordinates[0] >= bounds[0][0] &&
-          f.geometry.coordinates[0] <= bounds[1][0] &&
-          f.geometry.coordinates[1] >= bounds[0][1] &&
-          f.geometry.coordinates[1] <= bounds[1][1]
-        )
-      : true;
-    return inTime && inText && inBounds;
+    // No spatial filtering here: include all fires in Australia
+    return inTime && inText;
   });
-}, [enriched, lower, upper, matched, bounds]);
+}, [enriched, lower, upper, matched]);
+
 
 const points = useMemo(() =>
   filteredData.map(f => ({
@@ -118,13 +137,15 @@ const cluster = useMemo(() => {
   return sc;
 }, [points]);
 
+// Approximate Australia bounding box: [west, south, east, north]
+const AU_BOUNDS = [113, -44, 154, -10];
+
 const clusters = useMemo(() => {
-  if (!bounds) return [];
-  // bounds: [[westLng, southLat], [eastLng, northLat]]
-  return cluster.getClusters([
-    bounds[0][0], bounds[0][1], bounds[1][0], bounds[1][1]
-  ], Math.round(zoom));
-}, [cluster, bounds, zoom]);
+  // If there are no points, there will be no clusters
+  if (!points.length) return [];
+  return cluster.getClusters(AU_BOUNDS, Math.round(zoom));
+}, [cluster, zoom, points.length]);
+
 
 const layer = useMemo(() => {
   if (!filteredData.length) return null;
@@ -254,15 +275,40 @@ const fireIcons = useMemo(() => {
                 {playing ? "Pause" : "Play"}
               </button>
             </div>
-            <input type="range" min={0} max={Math.max(0, maxMonth)} value={monthIdx}
-              onChange={e => setMonthIdx(Number(e.target.value))} className="w-full mt-2" />
-            <div className="mt-2 flex items-center gap-3 text-sm">
-              <label className="whitespace-nowrap">Window</label>
-              <input type="number" min={1} max={24} value={monthWindow}
-                onChange={e => setMonthWindow(Math.max(1, Number(e.target.value) || 1))}
-                className="w-20 border border-surface-border rounded-xl px-2 py-1" title="Months displayed at once" />
-              <span className="text-gray-600">month{monthWindow === 1 ? "" : "s"}</span>
-            </div>
+            <input
+  type="range"
+  min={0}
+  max={Math.max(0, maxMonth)}
+  value={monthIdx}
+  onChange={e => setMonthIdx(Number(e.target.value))}
+  className="w-full mt-2"
+/>
+
+<div className="mt-2 flex items-center gap-3 text-sm">
+  <label className="whitespace-nowrap">Window</label>
+  <input
+    type="number"
+    min={1}
+    max={24}
+    value={monthWindow}
+    onChange={e =>
+      setMonthWindow(Math.max(1, Number(e.target.value) || 1))
+    }
+    className="w-20 border border-surface-border rounded-xl px-2 py-1"
+    title="Months displayed at once"
+  />
+  <span className="text-gray-600">
+    month{monthWindow === 1 ? "" : "s"}
+  </span>
+</div>
+
+{/* New human readable range text */}
+{rangeLabel && (
+  <p className="mt-1 text-xs text-gray-600">
+    {rangeLabel}
+  </p>
+)}
+
           </div>
         </Panel>
 
