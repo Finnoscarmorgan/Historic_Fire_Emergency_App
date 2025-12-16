@@ -435,10 +435,7 @@ whether directly affected or situated nearby. A temporal dimension is also evide
             <section id="credits">
               <h2 className="text-xl font-semibold mb-2">Acknowledgements</h2>
               <p className="text-sm leading-relaxed text-gray-800">
-                Data courtesy of Trove. Mapping developed using open-source tools
-                including deck.gl and MapLibre. You can adapt this section to include
-                institutional affiliations, funding acknowledgements and community
-                partners.
+                Data from Trove. 
               </p>
             </section>
           </article>
