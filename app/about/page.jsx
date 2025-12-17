@@ -126,88 +126,70 @@ export default function AboutPage() {
 
           {/* RIGHT: main content sections */}
           <article className="space-y-8">
-            <section id="overview">
-  <div className="bg-surface-0 border border-surface-border rounded-lg p-5">
-    <h2 className="text-xl font-semibold mb-2">Overview</h2>
-    <p className="text-sm leading-relaxed text-gray-800">
-      Historic Fires Near Me visualises digitised newspaper reports of bushfires
-      across Australia. Each mapped point corresponds to at least one article
-      mentioning a fire event at that location and date. The map is intended as a
-      tool for exploring patterns of reporting rather than as a definitive
-      catalogue of all fire incidents.
-    </p>
+           <section id="overview">
+  <div className="bg-surface-0 border border-surface-border p-5 space-y-6">
+
+    <div>
+      <h2 className="text-xl font-semibold mb-3">Overview</h2>
+      <p className="text-sm leading-relaxed text-gray-800">
+        Historic Fires Near Me visualises digitised newspaper reports of bushfires
+        across Australia. Each mapped point corresponds to at least one article
+        mentioning a fire event at that location and date. The map is intended as a
+        tool for exploring patterns of reporting rather than as a definitive
+        catalogue of all fire incidents.
+      </p>
+    </div>
+
+    <div>
+      <h3 className="text-lg font-semibold mb-3">Data sources</h3>
+      <p className="text-sm leading-relaxed text-gray-800">
+        Data have been sourced from digitised newspapers available through Trove.
+        Articles were identified using a keyword search for the term <em>bushfire</em>.
+        Placenames surrounding the search term were extracted and geo located using
+        a custom geocoding algorithm. The dataset covers articles published between
+        1850 and 1900.
+      </p>
+    </div>
+
+    <div>
+      <h3 className="text-lg font-semibold mb-3">How the map works</h3>
+      <p className="text-sm leading-relaxed text-gray-800 mb-3">
+        The map uses deck.gl and MapLibre to display and cluster locations
+        dynamically. At lower zoom levels clusters indicate broad areas of
+        reporting. As you zoom in, clusters separate into individual points. The
+        Results panel lists the articles corresponding to the currently visible
+        points and filters.
+      </p>
+
+      <ul className="list-disc list-inside text-sm text-gray-800 space-y-1">
+        <li>Select clusters to filter the Results panel to those articles.</li>
+        <li>Use the timeline to restrict the period displayed on the map.</li>
+        <li>Use the search box to locate towns or suburbs mentioned in reports.</li>
+      </ul>
+    </div>
+
   </div>
 </section>
 
-<section id="data">
-  <div className="bg-surface-0 border border-surface-border rounded-lg p-5">
-    <h2 className="text-xl font-semibold mb-2">Data sources</h2>
-    <p className="text-sm leading-relaxed text-gray-800">
-      Data have been sourced from digitised newspapers available through Trove.
-      Articles were identified using a keyword search for the term
-      <em> bushfire</em>. Placenames surrounding the search term were extracted and
-      geo located using a custom geocoding algorithm. The dataset covers articles
-      published between 1850 and 1900.
-    </p>
-  </div>
-</section>
-
-<section id="map">
-  <div className="bg-surface-0 border border-surface-border rounded-lg p-5">
-    <h2 className="text-xl font-semibold mb-2">How the map works</h2>
-
-    <p className="text-sm leading-relaxed text-gray-800 mb-3">
-      The map uses deck.gl and MapLibre to display and cluster locations
-      dynamically. At lower zoom levels clusters indicate broad areas of
-      reporting. As you zoom in, clusters separate into individual points. The
-      Results panel lists the articles corresponding to the currently visible
-      points and filters.
-    </p>
-
-    <ul className="list-disc list-inside text-sm text-gray-800 space-y-1">
-      <li>Select clusters to filter the Results panel to those articles.</li>
-      <li>Use the timeline to restrict the period displayed on the map.</li>
-      <li>Use the search box to locate towns or suburbs mentioned in reports.</li>
-    </ul>
-  </div>
-</section>
 
 
         <section id="interpretation">
   <h2 className="text-xl font-semibold mb-2">Interpreting results</h2>
   <p className="text-sm leading-relaxed text-gray-800 mb-4">
-    The visualisation reflects patterns in newspaper reporting rather than a complete
-    record of all fire events. Reporting varies with population density, editorial
-    practices and the availability of correspondents. Location accuracy also depends
-    on the clarity and consistency of historical placenames.
-
-    geographic references in this dataset are more closely linked to public responses 
-    and cultural acknowledgments of bushfires than to their precise physical locations. 
-    This observation does not diminish the value of the research; instead, it clarifies the
-     contingent nature of the data produced. The LOCATION entities identified through NER do 
-     not necessarily denote the exact sites of historical fires. Rather, they capture placenames 
-     that occur in close linguistic proximity to the term bushfire, a proximity that usually signals a 
-     meaningful association between place and disaster.
-In many cases, these locations represent communities that experienced, observed, or reacted to bushfires, 
-whether directly affected or situated nearby. A temporal dimension is also evident. The publication date of
- each article reflects when communities recognised and responded to bushfire events, which does not always
-  align with the precise timing of the fires themselves. Together, these factors highlight how the corpus 
-  records cultural and environmental responses to bushfire, offering insights that extend beyond the identification 
-  of exact geographic coordinates.
+This map shows patterns in historical newspaper reporting, not a complete record of every bushfire. Reporting varies depending on population density, local news coverage, and editorial practices, so some areas appear more frequently than others. Locations shown on the map reflect placenames mentioned near the word bushfire in newspaper articles, rather than the exact sites of fires. In many cases, these locations represent nearby towns or communities that experienced, observed, or responded to fire events. The dates shown indicate when fires were reported, which may differ from when they occurred. Together, the results highlight how bushfires were reported and understood in the past, rather than their precise physical details.
   </p>
 
-  <h3 className="text-base font-semibold mt-10 mb-3">
-  Identifying bushfires
-</h3>
+  
+
+<div className="rounded-lg border border-surface-border bg-surface-0 px-4 py-4 sm:px-5 sm:py-5 space-y-4 mb-6">
+
+<h2 className="mt-0 font-bold text-center">Identifying bushfires</h2>
 <p className="text-sm leading-relaxed text-gray-800 mb-4">
   A structured process was developed to identify newspaper articles reporting
   bushfires and extract the placenames most relevant for mapping. The following
   steps outline the workflow used to isolate bushfire related content from the
   broader corpus of digitised newspapers.
 </p>
-
-<div className="rounded-lg border border-surface-border bg-surface-0 px-4 py-4 sm:px-5 sm:py-5 space-y-4">
-
   {/* Step 1 */}
   <div className="flex items-start gap-3">
     <div className="flex-shrink-0 h-7 w-7 rounded-full bg-brand-dark text-white text-xs font-semibold flex items-center justify-center">
@@ -274,17 +256,19 @@ whether directly affected or situated nearby. A temporal dimension is also evide
 </div>
 
 
-  <h3 className="text-base font-semibold mb-3">
-    Disambiguation heuristic for historical placenames
-  </h3>
+  
+
+  {/* Styled container for steps */}
+  <div className="rounded-lg border border-surface-border bg-surface-0 px-4 py-4 sm:px-5 sm:py-5 space-y-4">
+    <h2 className="mt-0 font-bold text-center">
+  Disambiguation heuristic for historical place names
+</h2>
+
   <p className="text-sm leading-relaxed text-gray-800 mb-4">
     A structured heuristic was developed to assign approximate coordinates to
     historical placenames while making uncertainty explicit. The aim is to identify
     the general area associated with a reported fire, not the precise ignition point.
   </p>
-
-  {/* Styled container for steps */}
-  <div className="rounded-lg border border-surface-border bg-surface-0 px-4 py-4 sm:px-5 sm:py-5 space-y-4">
     {/* Step 1 */}
     <div className="flex items-start gap-3">
       <div className="flex-shrink-0 h-7 w-7 rounded-full bg-brand-dark text-white text-xs font-semibold flex items-center justify-center">
