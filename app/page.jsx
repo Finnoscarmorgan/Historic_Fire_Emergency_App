@@ -9,7 +9,7 @@ import { ScatterplotLayer, IconLayer } from "@deck.gl/layers";
 import { DataFilterExtension } from "@deck.gl/extensions";
 import { useEffect, useMemo, useRef, useState } from "react";
 import Fuse from "fuse.js";
-import { Search, Play, Pause, Info } from "lucide-react";
+import { Search, Play, Pause, Info, ChevronLeft, ChevronRight } from "lucide-react";
 import Supercluster from "supercluster";
 
 export default function Page() {
@@ -17,16 +17,22 @@ export default function Page() {
 
   const [raw, setRaw] = useState([]);
   const [selected, setSelected] = useState(null);
-  const [playing, setPlaying] = useState(false);
   const [query, setQuery] = useState("");
   const [monthIdx, setMonthIdx] = useState(0);
   const [monthWindow, setMonthWindow] = useState(12);
-  const timerRef = useRef(null);
   const [zoom, setZoom] = useState(initialView.zoom);
   const [bounds, setBounds] = useState(null);
   const [clusterSelection, setClusterSelection] = useState(null);
+  const [resultsOpen, setResultsOpen] = useState(true);
 // null = no cluster selected, show all articles in view
 
+{/*const handleAdvanceWindow = () => {
+  setMonthIdx(idx => {
+    const next = idx + monthWindow;
+    if (next >= months.length) return idx;
+    return next;
+  });
+};*/}
 
   const handleViewStateChange = ({ viewState }) => {
   setZoom(viewState.zoom);
@@ -90,6 +96,10 @@ const maxStart = Math.max(0, maxMonth - (safeWindow - 1));
 
 const lower = Math.min(monthIdx, maxStart);
 const upper = Math.min(maxMonth, lower + (safeWindow - 1));
+const handleAdvanceWindow = () => {
+  setMonthIdx(idx => Math.min(idx + safeWindow, maxMonth));
+};
+
 
 const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
@@ -326,12 +336,15 @@ const fireIcons = useMemo(() => {
     <div className="mt-2 flex items-center justify-between">
       <span className="text-sm font-medium">Timeline</span>
       <button
-        onClick={() => setPlaying(p => !p)}
-        className="inline-flex items-center gap-1 text-white bg-brand-red hover:opacity-95 px-3 py-1.5 rounded-xl"
-      >
-        {playing ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-        {playing ? "Pause" : "Play"}
-      </button>
+  type="button"
+  onClick={handleAdvanceWindow}
+  className="inline-flex items-center gap-1 text-white bg-brand-red hover:opacity-95 px-3 py-1.5 rounded-xl"
+  aria-label="Advance timeline by selected window"
+>
+  <Play className="h-4 w-4" />
+  Next
+</button>
+
     </div>
 
     <input
@@ -447,62 +460,93 @@ const fireIcons = useMemo(() => {
         </aside> 
         */}
 
-{/* Results drawer */}
-<aside className="absolute right-4 top-4 w-[420px]">
-  <Panel>
-    <div className="flex items-center justify-between mb-2">
-      <h2 className="font-semibold text-lg">Results</h2>
-      {clusterSelection && (
-        <button
-          className="text-xs text-gray-600 hover:underline"
-          onClick={() => setClusterSelection(null)}
-        >
-          Clear selection
-        </button>
-      )}
-    </div>
+{/* Results drawer with left-edge handle */}
+<aside
+  className={[
+    "absolute top-4 right-4 z-20",
+    "transition-transform duration-200 ease-out",
+    resultsOpen ? "translate-x-0" : "translate-x-[calc(100%+1rem)]"
+  ].join(" ")}
+>
+  {/* Leaf handle (always present, sits on the left edge of the panel) */}
+  <button
+    type="button"
+    onClick={() => setResultsOpen(v => !v)}
+    className={[
+      "absolute left-0 top-20 -translate-x-full",
+      "h-16 w-10",
+      "rounded-l-xl rounded-r-none",
+      "border border-surface-border border-r-0",
+      "bg-surface-0/95 backdrop-blur shadow-panel",
+      "flex items-center justify-center",
+      "hover:bg-surface-50",
+      "focus:outline-none focus:ring-2 focus:ring-[var(--ring)]"
+    ].join(" ")}
+    aria-label={resultsOpen ? "Collapse results panel" : "Expand results panel"}
+    aria-expanded={resultsOpen}
+  >
+    {resultsOpen ? <ChevronRight className="h-5 w-5 text-gray-700" /> : <ChevronLeft className="h-5 w-5 text-gray-700" />}
+  </button>
 
-    <div
-      className="flex flex-col gap-4 overflow-y-auto"
-      style={{ maxHeight: "80vh", minHeight: "300px" }}
-    >
-      {listData.map(item => (
-        <div key={item._i} className="border-b pb-4 last:border-b-0 last:pb-0">
-          <h3 className="font-semibold text-sm">
-            {item.properties.title || "Article"}
-          </h3>
-          <p className="text-sm text-gray-700 mt-1">
-            {item.properties.location}
-            {item.properties.state ? `, ${item.properties.state}` : ""} • {item.properties.date}
-          </p>
-          <p className="text-sm text-gray-700">{item.properties.paper}</p>
-          <div className="mt-2 flex gap-3">
-            {item.properties.url && (
-              <a
-                className="btn-primary"
-                href={item.properties.url}
-                target="_blank"
-                rel="noreferrer"
-              >
-                View article in Trove
-              </a>
-            )}
-            {item.properties.page_url && (
-              <a
-                className="btn-outline"
-                href={item.properties.page_url}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Newspaper page
-              </a>
-            )}
+  <div className="w-[420px]">
+    <Panel>
+      <div className="flex items-center justify-between mb-2">
+        <h2 className="font-semibold text-lg">Results</h2>
+
+        {clusterSelection && (
+          <button
+            className="text-xs text-gray-600 hover:underline"
+            onClick={() => setClusterSelection(null)}
+          >
+            Clear selection
+          </button>
+        )}
+      </div>
+
+      <div
+        className="flex flex-col gap-4 overflow-y-auto"
+        style={{ maxHeight: "80vh", minHeight: "300px" }}
+      >
+        {listData.map(item => (
+          <div key={item._i} className="border-b pb-4 last:border-b-0 last:pb-0">
+            <h3 className="font-semibold text-sm">
+              {item.properties.title || "Article"}
+            </h3>
+            <p className="text-sm text-gray-700 mt-1">
+              {item.properties.location}
+              {item.properties.state ? `, ${item.properties.state}` : ""} • {item.properties.date}
+            </p>
+            <p className="text-sm text-gray-700">{item.properties.paper}</p>
+            <div className="mt-2 flex gap-3">
+              {item.properties.url && (
+                <a
+                  className="btn-primary"
+                  href={item.properties.url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  View article in Trove
+                </a>
+              )}
+              {item.properties.page_url && (
+                <a
+                  className="btn-outline"
+                  href={item.properties.page_url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Newspaper page
+                </a>
+              )}
+            </div>
           </div>
-        </div>
-      ))}
-    </div>
-  </Panel>
+        ))}
+      </div>
+    </Panel>
+  </div>
 </aside>
+
+
 
     </div>
   );
