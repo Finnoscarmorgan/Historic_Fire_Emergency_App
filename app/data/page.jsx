@@ -40,10 +40,12 @@ export default function DataPage() {
 
   <details className="rounded-md border border-surface-border bg-surface-0 p-4">
     <summary className="cursor-pointer text-sm font-semibold text-brand-dark">
-      View dataset field guide and worked example
+      View dataset explainer
     </summary>
 
     <div className="mt-4 space-y-4">
+         <p className="text-sm leading-relaxed text-gray-800">
+        This web application visualises a subset of a larger bushfire dataset. Both datasets are archived on Zenodo, with the subset used here listed as the first dataset. Detailed information about the second, more comprehensive dataset is provided here.    </p>
       <p className="text-sm leading-relaxed text-gray-800">
         This section provides an overview of the fields contained within the dataset and explains how each variable should be interpreted. The dataset comprises extracted placenames associated with historical bushfire reporting
         Placename coordinates are derived from the Gazetteer of Historical Australian Placenames (GHAP),

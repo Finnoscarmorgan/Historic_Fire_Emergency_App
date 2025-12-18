@@ -12,6 +12,30 @@ import Fuse from "fuse.js";
 import { Search, Play, Pause, Info, ChevronLeft, ChevronRight } from "lucide-react";
 import Supercluster from "supercluster";
 
+export const metadata = {
+  title: "Historic Fires Near Me",
+  description:
+    "An interactive map exploring nineteenth century Australian bushfire reporting from digitised newspapers (1850–1900).",
+  openGraph: {
+    title: "Historic Fires Near Me",
+    description:
+      "Explore patterns in nineteenth century Australian bushfire reporting using digitised newspapers from Trove.",
+    url: "https://your-site-url",
+    siteName: "Historic Fires Near Me",
+    images: [
+      {
+        url: "https://your-site-url/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Historic Fires Near Me map preview"
+      }
+    ],
+    locale: "en_AU",
+    type: "website"
+  }
+};
+
+
 export default function Page() {
   const initialView = { longitude: 134.5, latitude: -25.5, zoom: 3.6 };
 
