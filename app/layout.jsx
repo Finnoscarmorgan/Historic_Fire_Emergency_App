@@ -1,9 +1,36 @@
 import "./globals.css";
 import Link from "next/link";
 export const metadata = {
+  metadataBase: new URL("https://historic-fire-emergency-app.vercel.app"),
   title: "Historic Fires Near Me",
-  description: "Explore historical newspaper locations over time"
+  description:
+    "Explore historical newspaper reporting on bushfires in Australia (1850 to 1900).",
+  openGraph: {
+    title: "Historic Fires Near Me",
+    description:
+      "An interactive map exploring nineteenth century Australian bushfire reporting from digitised newspapers (1850 to 1900).",
+    url: "https://historic-fire-emergency-app.vercel.app",
+    siteName: "Historic Fires Near Me",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Historic Fires Near Me map preview"
+      }
+    ],
+    locale: "en_AU",
+    type: "website"
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Historic Fires Near Me",
+    description:
+      "An interactive map exploring nineteenth century Australian bushfire reporting (1850 to 1900).",
+    images: ["/og-image.png"]
+  }
 };
+
 
 export default function RootLayout({ children }) {
   return (
