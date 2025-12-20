@@ -16,13 +16,18 @@ const items = [
     parent: "interpretation"
   },
 
-  { id: "limitations", label: "Limitations" },
+  
+  { id: "research-outputs", label: "Research Outputs" },
   { id: "credits", label: "Acknowledgements" }
 ];
 
 
 export default function AboutPage() {
   const [isOpen, setIsOpen] = useState(true);
+  const [researchOutputsOpen, setResearchOutputsOpen] = useState(false);
+  const [identifyingOpen, setIdentifyingOpen] = useState(false);
+  const [disambiguationOpen, setDisambiguationOpen] = useState(false);
+
   const [activeItem, setActiveItem] = useState(items[0].id);
 
   const togglePanel = () => setIsOpen(prev => !prev);
@@ -149,84 +154,166 @@ export default function AboutPage() {
 
           <article className="space-y-8">
             {/* Kept on the page, removed from the left menu */}
-            <section id="overview">
-              <div className="bg-surface-0 border border-surface-border p-5 space-y-6">
-                <div>
-                  <h2 className="text-xl font-semibold mb-3">Overview</h2>
-                  <p className="text-sm leading-relaxed text-gray-800">
-                    <em>Historic Fires Near Me</em> visualises digitised newspaper reporting on bushfires across
-                    Australia between 1850-1900. Each mapped point corresponds to at least one article mentioning a fire
-                    event related to that location. 
-                  </p>
-                </div>
+       <section id="overview">
+  <div className="panel panel-pgr-item overflow-hidden border border-surface-border shadow-sm">
 
-                <div>
-                  <h3 className="text-lg font-semibold mb-3">Data sources</h3>
-                  <p className="text-sm leading-relaxed text-gray-800">
-                    Newspaper reporting was sourced from digitised newspapers available through{" "}
-    <a
-      href="http://trove.nla.gov.au/about/create-something/using-api"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="underline text-brand-dark hover:text-brand-red"
-    >
-      Trove
-    </a>
-    .  Relevant
-    articles were identified using a keyword search for the term <em>bushfire</em>. Placenames
-    surrounding this search term were extracted and geo-located using Named Entity Recognition (NER)
-    and a custom geocoding algorithm built using infrastructure provided by the{" "}
-    <a
-      href="https://docs.tlcmap.org/help/developers/"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="underline text-brand-dark hover:text-brand-red"
-    >
-      Time Layered Cultural Map of Australia
-    </a>
-  </p>
-                </div>
+    <div className="panel-heading bg-brand-dark text-white">
+      <h2 className="text-xl font-semibold px-4 py-3">
+        Overview
+      </h2>
+    </div>
 
-                <div>
-                  <h3 className="text-lg font-semibold mb-3">How the map works</h3>
-                  <p className="text-sm leading-relaxed text-gray-800 mb-3">
-                    The map displays and clusters locations dynamically. At
-                    lower zoom levels clusters indicate broad areas of reporting about historic fires. As you zoom in, clusters
-                    separate into individual points. The Results panel on the right hand side lists the articles corresponding
-                    to the currently visible points and filters. To interact with the map:
-                  </p>
+    <div className="panel-body bg-surface-0 px-5 py-5 space-y-5">
+      <p className="text-sm leading-relaxed text-gray-800">
+        <em>Historic Fires Near Me</em> visualises digitised newspaper reporting on bushfires
+        across Australia between 1850 and 1900. Each mapped point corresponds to at least
+        one newspaper article that mentions a fire event associated with that location.
+      </p>
 
-                  <ul className="list-disc list-inside text-sm text-gray-800 space-y-1">
-                    <li>Select clusters to filter the Results panel to those articles.</li>
-                    <li>Use the timeline to restrict the period displayed on the map.</li>
-                    <li>Use the search box to locate towns or suburbs mentioned in reports.</li>
-                  </ul>
-                </div>
-              </div>
-            </section>
+      <div>
+        <h3 className="text-lg font-semibold mb-2">Data sources</h3>
+        <p className="text-sm leading-relaxed text-gray-800">
+          Newspaper reporting was sourced from digitised newspapers available through{" "}
+          <a
+            href="http://trove.nla.gov.au/about/create-something/using-api"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-brand-dark hover:text-brand-red"
+          >
+            Trove
+          </a>
+          . Relevant articles were identified using a keyword search for the term{" "}
+          <em>bushfire</em>. Placenames surrounding this search term were extracted and
+          geolocated using Named Entity Recognition (NER) and a custom geocoding algorithm
+          built using infrastructure provided by the{" "}
+          <a
+            href="https://docs.tlcmap.org/help/developers/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-brand-dark hover:text-brand-red"
+          >
+            Time Layered Cultural Map of Australia
+          </a>
+          .
+        </p>
+      </div>
 
-            <section id="interpretation">
-              <h2 className="text-xl font-semibold mb-2">Interpreting results</h2>
-              <p className="text-sm leading-relaxed text-gray-800 mb-4">
-                This map visualises patterns in historical newspaper reporting about bushfires, but it is not a complete record of every
-                historic bushfire between 1850-1900. Reporting varies depending on population density, local news coverage, and
-                editorial practices, so some areas appear more frequently than others. Locations shown on
-                the map reflect placenames mentioned near the word <em>bushfire</em> in newspaper articles,
-                rather than the exact sites of fires. In many cases, these locations represent nearby
-                towns or communities that experienced, observed, or responded to fire events. The dates
-                shown indicate when fires were reported, which may differ from when they occurred. 
-                A structured process was developed to identify newspaper articles reporting bushfires
-                and extract and geolocate relevant placenames. These steps are outlined below.
-              </p>
-            </section>
+      <div>
+        <h3 className="text-lg font-semibold mb-2">How the map works</h3>
+        <p className="text-sm leading-relaxed text-gray-800 mb-3">
+          The map displays and clusters locations dynamically. At lower zoom levels,
+          clusters indicate broader areas of reporting about historic fires. As users zoom
+          in, clusters separate into individual points. The Results panel lists the
+          articles corresponding to the currently visible points and applied filters.
+        </p>
 
-            <section id="identifying">
-              <div className="rounded-lg border border-surface-border bg-surface-0 px-4 py-4 sm:px-5 sm:py-5 space-y-4">
-                <h2 className="mt-0 font-bold text-center">Identifying bushfires</h2>
-                <p className="text-sm leading-relaxed text-gray-800 mb-4">
-                   The following steps outline the
-                  workflow used to identify and isolate bushfire related content from the broader corpus of digitised
-                  newspapers availabel on Trove.
+        <ul className="list-disc list-inside text-sm text-gray-800 space-y-1">
+          <li>Select clusters to filter the Results panel to relevant articles.</li>
+          <li>Use the timeline to restrict the period displayed on the map.</li>
+          <li>Use the search box to locate towns or suburbs mentioned in reports.</li>
+        </ul>
+      </div>
+
+      <p className="text-sm leading-relaxed text-gray-800">
+        Further information about the project, including background and methodology, is
+        available on the project website:{" "}
+        <a
+          href="https://www.fiannualamorgan.com/historical-fires-near-me"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline text-brand-dark hover:text-brand-red"
+        >
+          fiannualamorgan.com/historical-fires-near-me
+        </a>
+        .
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="interpretation">
+  <div className="panel panel-pgr-item overflow-hidden border border-surface-border shadow-sm">
+
+    <div className="panel-heading bg-brand-dark text-white">
+      <h2 className="text-xl font-semibold px-4 py-3">
+        Interpreting results
+      </h2>
+    </div>
+
+    <div className="panel-body bg-surface-0 px-5 py-5 space-y-6">
+      <p className="text-sm leading-relaxed text-gray-800">
+        This map shows patterns in historical newspaper reporting about bushfires between
+        1850 and 1900 and provides a valuable resource for understanding the history of fire
+        in Australia. It does not constitute a complete or definitive record of all bushfires
+        that occurred during this period.
+      </p>
+
+      <p className="text-sm leading-relaxed text-gray-800">
+        Newspaper reporting changed substantially over the nineteenth century as populations
+        grew, new technologies such as the steam train and the telegraph transformed how news
+        was gathered and disseminated, and editorial practices evolved. As a result, some
+        regions and time periods are more visible in the data than others.
+      </p>
+
+      <h3 className="text-sm font-semibold text-gray-900">
+        Interpreting mapped locations and dates
+      </h3>
+
+      <ul className="list-disc list-inside text-sm text-gray-800 space-y-1">
+        <li>
+          Locations shown on the map are placenames that appear near the word{" "}
+          <em>bushfire</em> in newspaper articles, not the precise sites where fires occurred.
+        </li>
+        <li>
+          In many cases, these placenames refer to nearby towns or communities that reported on,
+          were affected by, or responded to fire events.
+        </li>
+        <li>
+          Dates associated with mapped points reflect when fires were reported in newspapers,
+          not necessarily when the events themselves took place.
+        </li>
+      </ul>
+
+      <p className="text-sm leading-relaxed text-gray-800">
+        Despite these constraints, the dataset offers meaningful insight into the spatial and
+        temporal dynamics of historical bushfire reporting and provides an important evidentiary
+        base for fire history, environmental history, and media history research. The workflow
+        used to construct the dataset is outlined below.
+      </p>
+
+      {/* Child panels grouped under the parent */}
+      <div className="space-y-4 pt-2">
+        {/* Identifying bushfires child panel */}
+        <section id="identifying">
+          <div className="panel panel-pgr-item overflow-hidden border border-surface-border/70 shadow-sm">
+
+            <div className="panel-heading bg-brand-dark text-white" role="tab">
+              <h3 className="text-base font-medium">
+                <button
+                  type="button"
+                  onClick={() => setIdentifyingOpen(prev => !prev)}
+                  className="w-full flex items-center justify-between px-4 py-2.5 text-left"
+                  aria-expanded={identifyingOpen}
+                  aria-controls="collapse-identifying"
+                >
+                  <span>Identifying bushfires</span>
+                  <span className="text-xs" aria-hidden>
+                    {identifyingOpen ? "▲" : "▼"}
+                  </span>
+                </button>
+              </h3>
+            </div>
+
+            <div
+              id="collapse-identifying"
+              className={identifyingOpen ? "block" : "hidden"}
+              role="tabpanel"
+              aria-expanded={identifyingOpen}
+            >
+              <div className="panel-body bg-surface-0 px-5 py-5 space-y-5">
+                <p className="text-sm leading-relaxed text-gray-800">
+                  The following steps outline the workflow used to identify and isolate bushfire-related
+                  content from the broader corpus of digitised newspapers available through Trove.
                 </p>
 
                 <div className="flex items-start gap-3">
@@ -236,7 +323,9 @@ export default function AboutPage() {
                   <div>
                     <p className="font-semibold text-sm text-brand-dark">Build the corpus</p>
                     <p className="text-sm text-gray-800 mt-1">
-                      The Trove API was used to collect digitised newspaper articles about bushfires between 1850-1900. This accomodates variations in spelling of the term <em>bushfire</em>. 
+                      The Trove API was used to collect digitised newspaper articles about bushfires
+                      between 1850 and 1900. This accommodates variations in spelling of the term{" "}
+                      <em>bushfire</em>.
                     </p>
                   </div>
                 </div>
@@ -246,54 +335,49 @@ export default function AboutPage() {
                     2
                   </div>
                   <div>
-                    <p className="font-semibold text-sm text-brand-dark">Apply initial NER</p>
+                    <p className="font-semibold text-sm text-brand-dark">Apply initial named entity recognition</p>
                     <p className="text-sm text-gray-800 mt-1">
-                      The Stanford NER three class model was applied to extract PERSON, ORGANISATION and
-                      LOCATION entities from the corpus. This established an initial set of prospective
+                      The Stanford NER three-class model was applied to extract PERSON, ORGANISATION,
+                      and LOCATION entities from the corpus, producing an initial set of prospective
                       placenames associated with reported bushfires.
                     </p>
                   </div>
                 </div>
 
-                  <div className="flex items-start gap-3">
+                <div className="flex items-start gap-3">
                   <div className="flex-shrink-0 h-7 w-7 rounded-full bg-brand-dark text-white text-xs font-semibold flex items-center justify-center">
                     3
                   </div>
-                  
                   <div>
                     <p className="font-semibold text-sm text-brand-dark">Establish a context window</p>
-                    
                     <p className="text-sm text-gray-800 mt-1">
                       A context window was defined around occurrences of the term <em>bushfire</em> to
-                      capture placenames appearing in close descriptive proximity. A span of
-                      approximately 600 characters was used to accommodate variations in article structure,
-                      genre and nineteenth-century writing conventions.
+                      capture placenames appearing in close descriptive proximity. A span of approximately
+                      600 characters was used to accommodate variation in article structure, genre,
+                      and nineteenth-century journalistic conventions.
                     </p>
-                    <div className="mt-3 flex items-start gap-2 text-xs text-gray-700">
-<img
-  src="/icons/information_icon.png"
-  alt="Information"
-  className="h-4 w-4 mt-0.5 flex-shrink-0"
-/>
-<p>
-  If you are using the dataset, please be aware of how variations in reporting
-  impact accuracy across the century. Further methodological detail is available
-  in the {" " }
-  <a
-    href="/data"
-    className="underline text-brand-dark hover:text-brand-red"
-  >
-    data section </a>
-  
-  of this website. 
-</p>
 
+                    <div className="mt-3 flex items-start gap-2 text-xs text-gray-700">
+                      <img
+                        src="/icons/information_icon.png"
+                        alt="Information"
+                        className="h-4 w-4 mt-0.5 flex-shrink-0"
+                      />
+                      <div>
+                        If you are using the dataset, please be aware that variations in reporting
+                        practices affect accuracy across the period studied. Further methodological
+                        detail is available in the{" "}
+                        <a
+                          href="/data"
+                          className="underline text-brand-dark hover:text-brand-red"
+                        >
+                          data section
+                        </a>{" "}
+                        of this website.
+                      </div>
+                    </div>
                   </div>
                 </div>
-                
-</div>
-
-                
 
                 <div className="flex items-start gap-3">
                   <div className="flex-shrink-0 h-7 w-7 rounded-full bg-brand-dark text-white text-xs font-semibold flex items-center justify-center">
@@ -302,222 +386,459 @@ export default function AboutPage() {
                   <div>
                     <p className="font-semibold text-sm text-brand-dark">Apply relevance rules</p>
                     <p className="text-sm text-gray-800 mt-1">
-                      Placenames that were too geographically broad to indicate a specific bushfire site, such as{" "}
-                      <em>Australia</em>, were excluded. This removed generic or non informative
-                      geographic references that would otherwise affect geolocation accuracy.
+                      Placenames that were too geographically broad to indicate a specific bushfire
+                      location, such as <em>Australia</em>, were excluded to improve geolocation accuracy.
                     </p>
                   </div>
                 </div>
               </div>
-            </section>
+            </div>
 
-            <section id="disambiguation">
-              <div className="rounded-lg border border-surface-border bg-surface-0 px-4 py-4 sm:px-5 sm:py-5 space-y-4">
-                <h2 className="mt-0 font-bold text-center">
-                  Disambiguation heuristic for historical placenames
-                </h2>
+          </div>
+        </section>
 
-               <p className="text-sm leading-relaxed text-gray-800 mb-4">
-  A custom developed geocoding algorithm was developed to assign approximate coordinates to historical
-  placenames while making uncertainty explicit. This was built using the{" "}
-  <a
-    href="https://tlcmap.org/?view=map"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="underline text-brand-dark hover:text-brand-red"
-  >
-    Gazetteer of Historical Australian Placenames
-  </a>{" "}
-  accessible through{" "}
-  <a
-    href="https://docs.tlcmap.org/help/developers/"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="underline text-brand-dark hover:text-brand-red"
-  >
-    The Time Layered Cultural Map of Australia
-  </a>
-  . The heuristic detailed here avoids opaque selections from black 
-                box geocoding services and explicitly encodes levels of uncertainty in the resulting dataset. The resulting 
-                coordinates are therefore appropriate for analysing patterns in reported bushfires and for understanding 
-                the geography of historical media reporting.
-</p>
+        {/* Disambiguation child panel */}
+        <section id="disambiguation">
+          <div className="panel panel-pgr-item overflow-hidden border border-surface-border/70 shadow-sm">
 
+            <div className="panel-heading bg-brand-dark text-white" role="tab">
+              <h3 className="text-base font-medium">
+                <button
+                  type="button"
+                  onClick={() => setDisambiguationOpen(prev => !prev)}
+                  className="w-full flex items-center justify-between px-4 py-2.5 text-left"
+                  aria-expanded={disambiguationOpen}
+                  aria-controls="collapse-disambiguation"
+                >
+                  <span>Disambiguation heuristic for historical placenames</span>
+                  <span className="text-xs" aria-hidden>
+                    {disambiguationOpen ? "▲" : "▼"}
+                  </span>
+                </button>
+              </h3>
+            </div>
 
+            <div
+              id="collapse-disambiguation"
+              className={disambiguationOpen ? "block" : "hidden"}
+              role="tabpanel"
+              aria-expanded={disambiguationOpen}
+            >
+              <div className="panel-body bg-surface-0 px-5 py-5 space-y-5">
+                <p className="text-sm leading-relaxed text-gray-800">
+                  A custom-developed geocoding algorithm was used to assign approximate coordinates
+                  to historical placenames while making uncertainty explicit. The heuristic draws on
+                  the{" "}
+                  <a
+                    href="https://tlcmap.org/?view=map"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline text-brand-dark hover:text-brand-red"
+                  >
+                    Gazetteer of Historical Australian Placenames
+                  </a>{" "}
+                  provided through the{" "}
+                  <a
+                    href="https://docs.tlcmap.org/help/developers/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline text-brand-dark hover:text-brand-red"
+                  >
+                    Time Layered Cultural Map of Australia
+                  </a>
+                  . This approach avoids opaque black-box geocoding services and explicitly encodes
+                  uncertainty within the resulting dataset.
+                </p>
 
-                <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 h-7 w-7 rounded-full bg-brand-dark text-white text-xs font-semibold flex items-center justify-center">
-                    1
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 h-7 w-7 rounded-full bg-brand-dark text-white text-xs font-semibold flex items-center justify-center">
+                      1
+                    </div>
+                    <div>
+                      <p className="font-semibold text-sm text-brand-dark">Retrieve all gazetteer entries</p>
+                      <p className="text-sm text-gray-800 mt-1">
+                        All historical gazetteer entries corresponding to each identified placename
+                        were retrieved, including associated colony or state, geographic class, and
+                        coordinates. Minor spelling variation was retained to accommodate OCR errors.
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-semibold text-sm text-brand-dark">Retrieve all gazetteer entries</p>
-                    <p className="text-sm text-gray-800 mt-1">
-                      For each placename identified through Named Entity Recognition (NER), all corresponding historical entries were retrieved from the Gazetteer of Historical Australian Placenames (GHAP). These entries include colony or state, geographic class, and coordinates, and account for minor spelling variations in order to accommodate errors arising from Optical Character Recognition (OCR). As a result, some placenames may appear misspelt, as they are derived directly from Trove newspaper text.
-                    </p>
+
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 h-7 w-7 rounded-full bg-brand-dark text-white text-xs font-semibold flex items-center justify-center">
+                      2
+                    </div>
+                    <div>
+                      <p className="font-semibold text-sm text-brand-dark">Identify the most likely colony</p>
+                      <p className="text-sm text-gray-800 mt-1">
+                        Colonies were evaluated using an above-chance threshold to determine whether
+                        a single geographic context could be assigned. Placenames failing this test
+                        were classified as ambiguous and excluded from automated geolocation.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 h-7 w-7 rounded-full bg-brand-dark text-white text-xs font-semibold flex items-center justify-center">
+                      3
+                    </div>
+                    <div>
+                      <p className="font-semibold text-sm text-brand-dark">
+                        Aggregate coordinates within a colony
+                      </p>
+                      <p className="text-sm text-gray-800 mt-1">
+                        When a single colony could be confidently assigned, coordinates from all
+                        matching gazetteer entries were averaged to produce a single approximate
+                        location representing the placename.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 h-7 w-7 rounded-full bg-brand-dark text-white text-xs font-semibold flex items-center justify-center">
+                      4
+                    </div>
+                    <div>
+                      <p className="font-semibold text-sm text-brand-dark">
+                        Detect duplication within colonies
+                      </p>
+                      <p className="text-sm text-gray-800 mt-1">
+                        Median distance thresholds were used to identify cases where multiple unrelated
+                        locations shared the same name within a single colony. Such cases were flagged
+                        as ambiguous.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 h-7 w-7 rounded-full bg-brand-dark text-white text-xs font-semibold flex items-center justify-center">
+                      5
+                    </div>
+                    <div>
+                      <p className="font-semibold text-sm text-brand-dark">
+                        Handle OCR and spelling variation
+                      </p>
+                      <p className="text-sm text-gray-800 mt-1">
+                        Fuzzy matching was applied incrementally to align misspelt placenames with
+                        gazetteer entries, after which the same disambiguation steps were applied.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 h-7 w-7 rounded-full bg-brand-dark text-white text-xs font-semibold flex items-center justify-center">
+                      6
+                    </div>
+                    <div>
+                      <p className="font-semibold text-sm text-brand-dark">Label ambiguous cases</p>
+                      <p className="text-sm text-gray-800 mt-1">
+                        Placenames that could not be confidently resolved were flagged as ambiguous
+                        and excluded from automated spatial analysis unless manually reviewed.
+                      </p>
+                    </div>
                   </div>
                 </div>
-
-                <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 h-7 w-7 rounded-full bg-brand-dark text-white text-xs font-semibold flex items-center justify-center">
-                    2
-                  </div>
-                  <div>
-                    <p className="font-semibold text-sm text-brand-dark">Identify the most likely colony</p>
-                    <p className="text-sm text-gray-800 mt-1">
-                      For each placename, the number of colonies in which it occurs was evaluated to establish
-                       an <span className="font-semibold">above chance </span> threshold for geographic assignment. If a single colony exceeds this threshold,
-                        it is selected for coordinate determination (for example two colonies → 50 per cent; five colonies → 20 per cent). 
-                        If none exceeds it, the placename
-                      is classified as <span className="font-semibold">ambiguous</span> and excluded from
-                      automated geolocation.
-                      
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 h-7 w-7 rounded-full bg-brand-dark text-white text-xs font-semibold flex items-center justify-center">
-                    3
-                  </div>
-                  <div>
-                    <p className="font-semibold text-sm text-brand-dark">
-                      Average coordinates within a single colony
-                    </p>
-                    <p className="text-sm text-gray-800 mt-1">
-                      When a single colony can be confidently assigned, surpassing the above chance threshold, the latitude and longitude values of all Gazetteer of Historical Australian Placenames (GHAP) entries for that placename within the colony are cumulatively aggregated and the mean values (average) are calculated to produce a single approximate coordinate. This coordinate represents a synthesis of all relevant entries rather than the selection of any individual gazetteer record.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 h-7 w-7 rounded-full bg-brand-dark text-white text-xs font-semibold flex items-center justify-center">
-                    4
-                  </div>
-                  <div>
-                    <p className="font-semibold text-sm text-brand-dark">
-                      Detect duplication within a colony
-                    </p>
-                    <p className="text-sm text-gray-800 mt-1">
-                      Distances between each GHAP coordinate and the mean coordinate are measured. The
-                      median distance indicates whether multiple unrelated locations (such as common homestead names) share the same name within the same colony:
-                    </p>
-                    <ul className="list-disc list-inside text-sm text-gray-800 mt-1 space-y-0.5">
-                      <li>Median distance ≥ 1 degree → classified as ambiguous.</li>
-                      <li>Median distance &lt; 1 degree → averaged coordinate retained.</li>
-                    </ul>
-                   
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 h-7 w-7 rounded-full bg-brand-dark text-white text-xs font-semibold flex items-center justify-center">
-                    5
-                  </div>
-                  <div>
-                    <p className="font-semibold text-sm text-brand-dark">
-                      Handle OCR and spelling variation
-                    </p>
-                    <p className="text-sm text-gray-800 mt-1">
-                      Historical newspapers contain OCR errors. Fuzzy matching
-                      (Levenshtein distance) was lowered incrementally to match mispelled placenames with GHAP entries. Matches above
-                      a defined similarity threshold were then then processed using the same steps as above.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 h-7 w-7 rounded-full bg-brand-dark text-white text-xs font-semibold flex items-center justify-center">
-                    6
-                  </div>
-                  <div>
-                    <p className="font-semibold text-sm text-brand-dark">Label ambiguous cases</p>
-                    <p className="text-sm text-gray-800 mt-1">
-                      A placename is formally treated as ambiguous if it cannot be assigned to a single
-                      colony above chance, or if evidence indicates multiple distinct locations within one
-                      colony. Ambiguous cases are flagged in the dataset and excluded from automated
-                      spatial analysis unless manually resolved.
-                    </p>
-                  </div>
-                </div>
-
-                
               </div>
-            </section>
+            </div>
 
-            <section id="limitations">
-              <h2 className="text-xl font-semibold mb-2">Limitations</h2>
-              <p className="text-sm leading-relaxed text-gray-800">
-                Location accuracy varies across the dataset. Locations shown on the map reflect placenames mentioned near the word bushfire in newspaper articles, rather than the exact sites of fires. Dates correspond to publication, not
-                necessarily the exact time of the fire. The steps detailed above and the applied heuristic avoids opaque selections from black box geocoding services and
-                      explicitly encodes levels of uncertainty in the dataset. The resulting coordinates are therefore appropriate
-                      for analysing patterns in reported bushfires and for understanding the geography of
-                      historical media reporting.
-              </p>
-            </section>
-
-            <section id="credits">
-  <h2 className="text-xl font-semibold mb-2">Acknowledgements</h2>
-
-  <p className="text-sm leading-relaxed text-gray-800 mb-3">
-    This project draws on a range of digital infrastructures, data sources, and software tools.
-    The following resources were essential to the development of the dataset and methodology:
-  </p>
-
-  <ul className="list-disc list-inside text-sm text-gray-800 space-y-1">
-    <li>
-      <a
-        href="https://docs.tlcmap.org/about/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="underline text-brand-dark hover:text-brand-red"
-      >
-        Time Layered Cultural Map of Australia
-      </a>
-    </li>
-    <li>
-      <a
-        href="https://trove.nla.gov.au"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="underline text-brand-dark hover:text-brand-red"
-      >
-        Trove, National Library of Australia
-      </a>
-    </li>
-    <li>
-      <a
-        href="https://glam-workbench.net/trove-harvester/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="underline text-brand-dark hover:text-brand-red"
-      >
-        GLAM Workbench Trove Harvester
-      </a>
-    </li>
-    <li>
-      <a
-        href="https://nlp.stanford.edu/software/CRF-NER.html"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="underline text-brand-dark hover:text-brand-red"
-      >
-        Stanford Named Entity Recognition (CRF-NER)
-      </a>
-    </li>
-  </ul>
-  <p className="text-sm leading-relaxed text-gray-800 mt-4">
-    All source code used in this project is publicly available via the{" "}
-    <a
-      href="https://github.com/Finnoscarmorgan/Historical_Fires_Near_Me"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="underline text-brand-dark hover:text-brand-red"
-    >
-      Historical Fires Near Me GitHub repository
-    </a>
-    .
-  </p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
 </section>
+
+
+
+
+            
+
+ <section id="research-outputs">
+  <div className="bg-surface-0 border border-surface-border p-5 space-y-4">
+
+    <button
+      type="button"
+      onClick={() => setResearchOutputsOpen(prev => !prev)}
+      className="w-full flex items-center justify-between text-left"
+      aria-expanded={researchOutputsOpen}
+      aria-controls="research-outputs-content"
+    >
+      <h2 className="text-xl font-semibold">Research Outputs</h2>
+      <span aria-hidden className="text-sm">
+        {researchOutputsOpen ? "▲" : "▼"}
+      </span>
+    </button>
+
+    <div
+      id="research-outputs-content"
+      className={researchOutputsOpen ? "block" : "hidden"}
+    >
+      <div className="space-y-8">
+
+        <div>
+          <h3 className="text-lg font-semibold mb-3">Presentations and invited talks</h3>
+          <ul className="list-disc list-inside text-sm text-gray-800 space-y-1">
+            <li>
+              Digital Spatial Memories Panel. Panel presented by Fiannuala Morgan, Francesca Sidoti,
+              Heather Ford, Claire Loughnan and Michael Falk at <em>Digital Humanities Australasia 2025</em>,
+              Australian National University, Canberra, Roland Wilson Building, Seminar Room 3,
+              3 to 5 December 2025.
+            </li>
+            <li>
+              <em>Simple Algorithms, Big Discoveries: Using NLP to Unlock Digital Cultural Collections.</em>
+              Creative Technologist Lecture with SLV Lab, State Library of Victoria, Public Lecture,
+              9 October 2025.
+            </li>
+            <li>
+              <em>Mapping Histories and Writers: The Role of NLP in Enhancing Archival Work.</em>
+              NSW Branch of the Australian Society of Archivists, 3 April 2024.
+            </li>
+            <li>
+              <a
+                href="https://vimeo.com/showcase/11221722?video=958187585#chapter=15347171"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline text-brand-dark hover:text-brand-red"
+              >
+                <em>Historical Fires Near Me: (Re)Constructing Colonial Ecological Records.</em>
+              </a>{" "}
+              Lightning talk, Making Meaning 2024: Collections as Data,
+              State Library of Queensland, 8 March 2024.
+            </li>
+            <li>
+              <em>Trove Research Webinar.</em> Co-presented with Kate Ross,
+              National Library of Australia, 31 August 2023.
+            </li>
+            <li>
+              <em>
+                Latent Geographic Associations: Theorising Mapping in Journalistic and Fictional Accounts
+                of Nineteenth-Century Bushfires.
+              </em>{" "}
+              Conversations in HADES seminar series, The University of Melbourne, 19 May 2022.
+            </li>
+            <li>
+              <em>Space, Data, Place: Digital Tools for Australia’s Deep Past.</em>
+              Centre for Environmental History, Australian National University, 23 August 2022.
+            </li>
+            <li>
+              <em>
+                Rethinking Settler (Un)Belonging: Reading Ecological Decline in Colonial Australian Literature.
+              </em>
+              Coming to Terms, 30 Years On: The Mabo Legacy in Australian Writing,
+              University of Tasmania, 4 July 2022.
+            </li>
+            <li>
+              <em>Bushfire Literature and Reporting: Mythology, Memorialisation and Omission.</em>
+              ResBaz Research Bazaar, The University of Queensland, 26 November 2021.
+            </li>
+            <li>
+              <em>
+                Geo-locating Real and Fictional Place: Analysis of Bushfires in Australian Literature
+                and Newspaper Articles.
+              </em>
+              National School of Arts Winter Seminar Series,
+              Teaching and Researching in the Digital Humanities, 24 June 2021.
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 className="text-lg font-semibold mb-3">Public scholarship and media</h3>
+          <ul className="list-disc list-inside text-sm text-gray-800 space-y-1">
+            <li>
+              <a
+                href="https://pursuit.unimelb.edu.au/individuals/fiannuala-morgan"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline text-brand-dark hover:text-brand-red"
+              >
+                <em>
+                  Dwyer, Graham and Fiannuala Morgan.
+                  “What 174 years of bushfire records teach us about emergency management.”
+                </em>
+              </a>{" "}
+              Pursuit, June 2025.
+            </li>
+            <li>
+              <a
+                href="https://linktr.ee/tobecontinuedanu"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline text-brand-dark hover:text-brand-red"
+              >
+                <em>Episode 2: Bushfires: To Be Continued.</em>
+              </a>{" "}
+              A Lost Literature Podcast, 2023.
+            </li>
+            <li>
+              <a
+                href="https://overland.org.au/previous-issues/issue-250/reading-ecological-decline-in-nineteenth-century-bushfire-serials-and-reporting/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline text-brand-dark hover:text-brand-red"
+              >
+                <em>
+                  Reading Ecological Decline in Nineteenth-Century Bushfire Serials and Reporting.
+                </em>
+              </a>{" "}
+              Overland, 28 June 2023.
+            </li>
+            <li>
+              <a
+                href="https://theconversation.com/mythologised-memorialised-then-forgotten-a-history-of-australias-bushfire-reporting-170778"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline text-brand-dark hover:text-brand-red"
+              >
+                <em>
+                  Mythologised, Memorialised Then Forgotten:
+                  A History of Australia’s Bushfire Reporting.
+                </em>
+              </a>{" "}
+              The Conversation, 18 January 2022.
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 className="text-lg font-semibold mb-3">Monographs</h3>
+          <ul className="list-disc list-inside text-sm text-gray-800 space-y-1">
+            <li>
+              <em>Black Thursday and Other Lost Australian Bushfire Stories.</em>
+              Canberra: Orbiter Publishing, 2021.
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 className="text-lg font-semibold mb-3">Peer-reviewed scholarship</h3>
+          <ul className="list-disc list-inside text-sm text-gray-800 space-y-1">
+            <li>
+              <a
+                href="https://doi.org/10.1111/1467-8500.70007"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline text-brand-dark hover:text-brand-red"
+              >
+                <em>
+                  Dwyer, G., Marjoribanks, T., Morgan, F., and Farmer, J. (2025).
+                  “Bushfire public inquiries: From recommendations to hybrid emergency management arrangements.”
+                </em>
+              </a>{" "}
+              <em>Australian Journal of Public Administration</em>, 1:40.
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 className="text-lg font-semibold mb-3">Funding and Awards</h3>
+          <ul className="list-disc list-inside text-sm text-gray-800 space-y-1">
+            <li>
+              Chief Investigator and Inaugural Recipient of the Melbourne Public Humanities Initiative for
+              <em>
+                {" "}Historical Fire Records as Community Data: Digitisation, Co-Design, and Climate Research
+              </em>,
+              Faculty of Arts, The University of Melbourne.
+            </li>
+            <li>
+              Joint recipient of the Climate Research Accelerator (CRX), Melbourne Climate Futures (MCF’s)
+              funding scheme, 2023, in collaboration with the FLARE research group,
+              University of Melbourne.
+            </li>
+            <li>
+              Awarded Graduate Digital Research Fellowship,
+              Queensland University of Technology, 2021.
+            </li>
+            <li>
+              Research Partner, 2021 ARDC Grant,
+              <em> Time Layered Cultural Map of Australia: Dark Places</em>.
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+           <section id="credits">
+  <div className="panel panel-pgr-item overflow-hidden border border-surface-border shadow-sm">
+
+    <div className="panel-heading bg-brand-dark text-white">
+      <h2 className="text-xl font-semibold px-4 py-3">
+        Acknowledgements
+      </h2>
+    </div>
+
+    <div className="panel-body bg-surface-0 px-5 py-5 space-y-4">
+      <p className="text-sm leading-relaxed text-gray-800">
+        This project draws on a range of digital infrastructures, data sources, and software
+        tools. The resources listed below were essential to the development of the dataset
+        and the methodological approach.
+      </p>
+
+      <ul className="list-disc list-inside text-sm text-gray-800 space-y-1">
+        <li>
+          <a
+            href="https://docs.tlcmap.org/about/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-brand-dark hover:text-brand-red"
+          >
+            Time Layered Cultural Map of Australia
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://trove.nla.gov.au"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-brand-dark hover:text-brand-red"
+          >
+            Trove, National Library of Australia
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://glam-workbench.net/trove-harvester/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-brand-dark hover:text-brand-red"
+          >
+            GLAM Workbench Trove Harvester
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://nlp.stanford.edu/software/CRF-NER.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-brand-dark hover:text-brand-red"
+          >
+            Stanford Named Entity Recognition (CRF-NER)
+          </a>
+        </li>
+      </ul>
+
+      <p className="text-sm leading-relaxed text-gray-800 pt-2">
+        All source code used in this project is publicly available via the{" "}
+        <a
+          href="https://github.com/Finnoscarmorgan/Historical_Fires_Near_Me"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline text-brand-dark hover:text-brand-red"
+        >
+          Historical Fires Near Me GitHub repository
+        </a>
+        .
+      </p>
+    </div>
+  </div>
+</section>
+
+
 
           </article>
         </div>

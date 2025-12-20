@@ -9,7 +9,12 @@ export default function DataPage() {
           
 
           <section>
-            <h2 className="text-xl font-semibold mb-3">Dataset</h2>
+            <div className="bg-brand-dark text-white mb-4">
+  <h2 className="text-xl font-semibold px-4 py-3">
+    Dataset
+  </h2>
+</div>
+
             <p className="text-sm leading-relaxed text-gray-800">
               The full processed dataset used in this visualisation is publicly
               archived on Zenodo. It includes article level metadata, publication
@@ -157,7 +162,12 @@ export default function DataPage() {
           
 
          <section>
-  <h2 className="text-xl font-semibold mb-3">Code</h2>
+  <div className="bg-brand-dark text-white mb-4">
+  <h2 className="text-xl font-semibold px-4 py-3">
+    Code
+  </h2>
+</div>
+
 
   <p className="text-sm leading-relaxed text-gray-800">
     All software developed for the collection, processing, analysis, and
@@ -170,15 +180,16 @@ export default function DataPage() {
   
 
   <div className="mt-4">
-    <a
-      href="https://github.com/Finnoscarmorgan/Historical_Fires_Near_Me"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold bg-brand-dark text-white border border-brand-dark hover:opacity-95 pointer-events-auto"
-    >
-      View software on GitHub
-    </a>
-  </div>
+  <a
+    href="https://github.com/Finnoscarmorgan/Historical_Fires_Near_Me"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold bg-brand-red text-white border border-brand-red hover:opacity-95 pointer-events-auto"
+  >
+    View software on GitHub
+  </a>
+</div>
+
 
 <div className="mt-6 pl-6 border-l border-surface-border">
   <h3 className="text-lg font-semibold mb-2">Software citation</h3>
