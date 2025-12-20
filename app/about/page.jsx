@@ -555,46 +555,205 @@ export default function AboutPage() {
             
 
  <section id="research-outputs">
-  <div className="bg-surface-0 border border-surface-border p-5 space-y-4">
-
-    <button
-      type="button"
-      onClick={() => setResearchOutputsOpen(prev => !prev)}
-      className="w-full flex items-center justify-between text-left"
-      aria-expanded={researchOutputsOpen}
-      aria-controls="research-outputs-content"
-    >
-      <h2 className="text-xl font-semibold">Research Outputs</h2>
-      <span aria-hidden className="text-sm">
-        {researchOutputsOpen ? "▲" : "▼"}
-      </span>
-    </button>
+  <div className="panel panel-pgr-item overflow-hidden border border-surface-border shadow-sm bg-surface-0">
+    <div className="panel-heading bg-brand-dark text-white">
+      <button
+        type="button"
+        onClick={() => setResearchOutputsOpen(prev => !prev)}
+        className="w-full flex items-center justify-between px-4 py-3 text-left"
+        aria-expanded={researchOutputsOpen}
+        aria-controls="research-outputs-content"
+      >
+        <h2 className="text-xl font-semibold">Research Outputs</h2>
+        <span
+          aria-hidden
+          className="text-xs font-semibold rounded-full border border-white/30 px-2 py-1"
+        >
+          {researchOutputsOpen ? "Hide" : "Show"}
+        </span>
+      </button>
+    </div>
 
     <div
       id="research-outputs-content"
       className={researchOutputsOpen ? "block" : "hidden"}
     >
-      <div className="space-y-8">
+      <div className="panel-body px-5 py-5">
+        <p className="text-sm leading-relaxed text-gray-800">
+          Selected outputs associated with <em>Historic Fires Near Me</em>, grouped by type
+          for ease of scanning.
+        </p>
 
-        <div>
-          <h3 className="text-lg font-semibold mb-3">Presentations and invited talks</h3>
-          <ul className="list-disc list-inside text-sm text-gray-800 space-y-1">
-            <li>
-              Digital Spatial Memories Panel. Panel presented by Fiannuala Morgan, Francesca Sidoti,
-              Heather Ford, Claire Loughnan and Michael Falk at <em>Digital Humanities Australasia 2025</em>,
-              Australian National University, Canberra, Roland Wilson Building, Seminar Room 3,
-              3 to 5 December 2025.
+        <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Public scholarship and media */}
+          <section className="rounded-lg border border-surface-border bg-surface-0 p-4">
+            <h3 className="text-base font-semibold text-gray-900 flex items-center gap-2">
+              <span
+                className="inline-block h-2.5 w-2.5 rounded-full bg-brand-red"
+                aria-hidden
+              />
+              Public scholarship and media
+            </h3>
+
+            <ul className="mt-3 space-y-3 text-sm text-gray-800">
+              <li className="rounded-md bg-surface-50 p-3">
+                <a
+                  href="https://pursuit.unimelb.edu.au/individuals/fiannuala-morgan"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline text-brand-dark hover:text-brand-red"
+                >
+                  <em>
+                    Dwyer, Graham and Fiannuala Morgan. “What 174 years of bushfire records teach us
+                    about emergency management.”
+                  </em>
+                </a>
+                <div className="mt-1 text-xs text-gray-700">Pursuit, June 2025.</div>
+              </li>
+
+              <li className="rounded-md bg-surface-50 p-3">
+                <a
+                  href="https://linktr.ee/tobecontinuedanu"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline text-brand-dark hover:text-brand-red"
+                >
+                  <em>Episode 2: Bushfires: To Be Continued.</em>
+                </a>
+                <div className="mt-1 text-xs text-gray-700">A Lost Literature Podcast, 2023.</div>
+              </li>
+
+              <li className="rounded-md bg-surface-50 p-3">
+                <a
+                  href="https://overland.org.au/previous-issues/issue-250/reading-ecological-decline-in-nineteenth-century-bushfire-serials-and-reporting/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline text-brand-dark hover:text-brand-red"
+                >
+                  <em>Reading Ecological Decline in Nineteenth-Century Bushfire Serials and Reporting.</em>
+                </a>
+                <div className="mt-1 text-xs text-gray-700">Overland, 28 June 2023.</div>
+              </li>
+
+              <li className="rounded-md bg-surface-50 p-3">
+                <a
+                  href="https://theconversation.com/mythologised-memorialised-then-forgotten-a-history-of-australias-bushfire-reporting-170778"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline text-brand-dark hover:text-brand-red"
+                >
+                  <em>Mythologised, Memorialised Then Forgotten: A History of Australia’s Bushfire Reporting.</em>
+                </a>
+                <div className="mt-1 text-xs text-gray-700">The Conversation, 18 January 2022.</div>
+              </li>
+            </ul>
+          </section>
+
+          {/* Monographs */}
+          <section className="rounded-lg border border-surface-border bg-surface-0 p-4">
+            <h3 className="text-base font-semibold text-gray-900 flex items-center gap-2">
+              <span
+                className="inline-block h-2.5 w-2.5 rounded-full bg-brand-red"
+                aria-hidden
+              />
+              Monographs
+            </h3>
+
+            <ul className="mt-3 space-y-3 text-sm text-gray-800">
+              <li className="rounded-md bg-surface-50 p-3">
+                <em>Black Thursday and Other Lost Australian Bushfire Stories.</em>
+                <div className="mt-1 text-xs text-gray-700">Canberra: Orbiter Publishing, 2021.</div>
+              </li>
+            </ul>
+          </section>
+
+          {/* Peer-reviewed scholarship */}
+          <section className="rounded-lg border border-surface-border bg-surface-0 p-4">
+            <h3 className="text-base font-semibold text-gray-900 flex items-center gap-2">
+              <span
+                className="inline-block h-2.5 w-2.5 rounded-full bg-brand-red"
+                aria-hidden
+              />
+              Peer-reviewed scholarship
+            </h3>
+
+            <ul className="mt-3 space-y-3 text-sm text-gray-800">
+              <li className="rounded-md bg-surface-50 p-3">
+                <a
+                  href="https://doi.org/10.1111/1467-8500.70007"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline text-brand-dark hover:text-brand-red"
+                >
+                  <em>
+                    Dwyer, G., Marjoribanks, T., Morgan, F., and Farmer, J. (2025). “Bushfire public inquiries:
+                    From recommendations to hybrid emergency management arrangements.”
+                  </em>
+                </a>
+                <div className="mt-1 text-xs text-gray-700">
+                  <em>Australian Journal of Public Administration</em>, 1:40.
+                </div>
+              </li>
+            </ul>
+          </section>
+
+          {/* Funding and Awards */}
+          <section className="rounded-lg border border-surface-border bg-surface-0 p-4">
+            <h3 className="text-base font-semibold text-gray-900 flex items-center gap-2">
+              <span
+                className="inline-block h-2.5 w-2.5 rounded-full bg-brand-red"
+                aria-hidden
+              />
+              Funding and awards
+            </h3>
+
+            <ul className="mt-3 space-y-2 text-sm text-gray-800">
+              <li className="rounded-md bg-surface-50 p-3">
+                Chief Investigator and Inaugural Recipient of the Melbourne Public Humanities Initiative for{" "}
+                <em>
+                  Historical Fire Records as Community Data: Digitisation, Co-Design, and Climate Research
+                </em>
+                , Faculty of Arts, The University of Melbourne.
+              </li>
+              <li className="rounded-md bg-surface-50 p-3">
+                Joint recipient of the Climate Research Accelerator (CRX), Melbourne Climate Futures (MCF’s) funding
+                scheme, 2023, in collaboration with the FLARE research group, University of Melbourne.
+              </li>
+              <li className="rounded-md bg-surface-50 p-3">
+                Awarded Graduate Digital Research Fellowship, Queensland University of Technology, 2021.
+              </li>
+              <li className="rounded-md bg-surface-50 p-3">
+                Research Partner, 2021 ARDC Grant, <em>Time Layered Cultural Map of Australia: Dark Places</em>.
+              </li>
+            </ul>
+          </section>
+        </div>
+
+        {/* Presentations */}
+        <section className="mt-6 rounded-lg border border-surface-border bg-surface-0 p-4">
+          <h3 className="text-base font-semibold text-gray-900 flex items-center gap-2">
+            <span
+              className="inline-block h-2.5 w-2.5 rounded-full bg-brand-red"
+              aria-hidden
+            />
+            Presentations and invited talks
+          </h3>
+
+          <ul className="mt-3 space-y-3 text-sm text-gray-800">
+            <li className="rounded-md bg-surface-50 p-3">
+              Digital Spatial Memories Panel. Panel presented by Fiannuala Morgan, Francesca Sidoti, Heather Ford,
+              Claire Loughnan and Michael Falk at <em>Digital Humanities Australasia 2025</em>, Australian National
+              University, Canberra, Roland Wilson Building, Seminar Room 3, 3 to 5 December 2025.
             </li>
-            <li>
-              <em>Simple Algorithms, Big Discoveries: Using NLP to Unlock Digital Cultural Collections.</em>
-              Creative Technologist Lecture with SLV Lab, State Library of Victoria, Public Lecture,
-              9 October 2025.
+            <li className="rounded-md bg-surface-50 p-3">
+              <em>Simple Algorithms, Big Discoveries: Using NLP to Unlock Digital Cultural Collections.</em> Creative
+              Technologist Lecture with SLV Lab, State Library of Victoria, Public Lecture, 9 October 2025.
             </li>
-            <li>
-              <em>Mapping Histories and Writers: The Role of NLP in Enhancing Archival Work.</em>
-              NSW Branch of the Australian Society of Archivists, 3 April 2024.
+            <li className="rounded-md bg-surface-50 p-3">
+              <em>Mapping Histories and Writers: The Role of NLP in Enhancing Archival Work.</em> NSW Branch of the
+              Australian Society of Archivists, 3 April 2024.
             </li>
-            <li>
+            <li className="rounded-md bg-surface-50 p-3">
               <a
                 href="https://vimeo.com/showcase/11221722?video=958187585#chapter=15347171"
                 target="_blank"
@@ -602,165 +761,49 @@ export default function AboutPage() {
                 className="underline text-brand-dark hover:text-brand-red"
               >
                 <em>Historical Fires Near Me: (Re)Constructing Colonial Ecological Records.</em>
-              </a>{" "}
-              Lightning talk, Making Meaning 2024: Collections as Data,
-              State Library of Queensland, 8 March 2024.
+              </a>
+              <div className="mt-1 text-xs text-gray-700">
+                Lightning talk, Making Meaning 2024: Collections as Data, State Library of Queensland, 8 March 2024.
+              </div>
             </li>
-            <li>
-              <em>Trove Research Webinar.</em> Co-presented with Kate Ross,
-              National Library of Australia, 31 August 2023.
+            <li className="rounded-md bg-surface-50 p-3">
+              <em>Trove Research Webinar.</em> Co-presented with Kate Ross, National Library of Australia, 31 August
+              2023.
             </li>
-            <li>
+            <li className="rounded-md bg-surface-50 p-3">
               <em>
-                Latent Geographic Associations: Theorising Mapping in Journalistic and Fictional Accounts
-                of Nineteenth-Century Bushfires.
+                Latent Geographic Associations: Theorising Mapping in Journalistic and Fictional Accounts of
+                Nineteenth-Century Bushfires.
               </em>{" "}
               Conversations in HADES seminar series, The University of Melbourne, 19 May 2022.
             </li>
-            <li>
-              <em>Space, Data, Place: Digital Tools for Australia’s Deep Past.</em>
-              Centre for Environmental History, Australian National University, 23 August 2022.
+            <li className="rounded-md bg-surface-50 p-3">
+              <em>Space, Data, Place: Digital Tools for Australia’s Deep Past.</em> Centre for Environmental History,
+              Australian National University, 23 August 2022.
             </li>
-            <li>
+            <li className="rounded-md bg-surface-50 p-3">
+              <em>Rethinking Settler (Un)Belonging: Reading Ecological Decline in Colonial Australian Literature.</em>{" "}
+              Coming to Terms, 30 Years On: The Mabo Legacy in Australian Writing, University of Tasmania, 4 July 2022.
+            </li>
+            <li className="rounded-md bg-surface-50 p-3">
+              <em>Bushfire Literature and Reporting: Mythology, Memorialisation and Omission.</em> ResBaz Research
+              Bazaar, The University of Queensland, 26 November 2021.
+            </li>
+            <li className="rounded-md bg-surface-50 p-3">
               <em>
-                Rethinking Settler (Un)Belonging: Reading Ecological Decline in Colonial Australian Literature.
-              </em>
-              Coming to Terms, 30 Years On: The Mabo Legacy in Australian Writing,
-              University of Tasmania, 4 July 2022.
-            </li>
-            <li>
-              <em>Bushfire Literature and Reporting: Mythology, Memorialisation and Omission.</em>
-              ResBaz Research Bazaar, The University of Queensland, 26 November 2021.
-            </li>
-            <li>
-              <em>
-                Geo-locating Real and Fictional Place: Analysis of Bushfires in Australian Literature
-                and Newspaper Articles.
-              </em>
-              National School of Arts Winter Seminar Series,
-              Teaching and Researching in the Digital Humanities, 24 June 2021.
+                Geo-locating Real and Fictional Place: Analysis of Bushfires in Australian Literature and Newspaper
+                Articles.
+              </em>{" "}
+              National School of Arts Winter Seminar Series, Teaching and Researching in the Digital Humanities, 24 June
+              2021.
             </li>
           </ul>
-        </div>
-
-        <div>
-          <h3 className="text-lg font-semibold mb-3">Public scholarship and media</h3>
-          <ul className="list-disc list-inside text-sm text-gray-800 space-y-1">
-            <li>
-              <a
-                href="https://pursuit.unimelb.edu.au/individuals/fiannuala-morgan"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline text-brand-dark hover:text-brand-red"
-              >
-                <em>
-                  Dwyer, Graham and Fiannuala Morgan.
-                  “What 174 years of bushfire records teach us about emergency management.”
-                </em>
-              </a>{" "}
-              Pursuit, June 2025.
-            </li>
-            <li>
-              <a
-                href="https://linktr.ee/tobecontinuedanu"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline text-brand-dark hover:text-brand-red"
-              >
-                <em>Episode 2: Bushfires: To Be Continued.</em>
-              </a>{" "}
-              A Lost Literature Podcast, 2023.
-            </li>
-            <li>
-              <a
-                href="https://overland.org.au/previous-issues/issue-250/reading-ecological-decline-in-nineteenth-century-bushfire-serials-and-reporting/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline text-brand-dark hover:text-brand-red"
-              >
-                <em>
-                  Reading Ecological Decline in Nineteenth-Century Bushfire Serials and Reporting.
-                </em>
-              </a>{" "}
-              Overland, 28 June 2023.
-            </li>
-            <li>
-              <a
-                href="https://theconversation.com/mythologised-memorialised-then-forgotten-a-history-of-australias-bushfire-reporting-170778"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline text-brand-dark hover:text-brand-red"
-              >
-                <em>
-                  Mythologised, Memorialised Then Forgotten:
-                  A History of Australia’s Bushfire Reporting.
-                </em>
-              </a>{" "}
-              The Conversation, 18 January 2022.
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 className="text-lg font-semibold mb-3">Monographs</h3>
-          <ul className="list-disc list-inside text-sm text-gray-800 space-y-1">
-            <li>
-              <em>Black Thursday and Other Lost Australian Bushfire Stories.</em>
-              Canberra: Orbiter Publishing, 2021.
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 className="text-lg font-semibold mb-3">Peer-reviewed scholarship</h3>
-          <ul className="list-disc list-inside text-sm text-gray-800 space-y-1">
-            <li>
-              <a
-                href="https://doi.org/10.1111/1467-8500.70007"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline text-brand-dark hover:text-brand-red"
-              >
-                <em>
-                  Dwyer, G., Marjoribanks, T., Morgan, F., and Farmer, J. (2025).
-                  “Bushfire public inquiries: From recommendations to hybrid emergency management arrangements.”
-                </em>
-              </a>{" "}
-              <em>Australian Journal of Public Administration</em>, 1:40.
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 className="text-lg font-semibold mb-3">Funding and Awards</h3>
-          <ul className="list-disc list-inside text-sm text-gray-800 space-y-1">
-            <li>
-              Chief Investigator and Inaugural Recipient of the Melbourne Public Humanities Initiative for
-              <em>
-                {" "}Historical Fire Records as Community Data: Digitisation, Co-Design, and Climate Research
-              </em>,
-              Faculty of Arts, The University of Melbourne.
-            </li>
-            <li>
-              Joint recipient of the Climate Research Accelerator (CRX), Melbourne Climate Futures (MCF’s)
-              funding scheme, 2023, in collaboration with the FLARE research group,
-              University of Melbourne.
-            </li>
-            <li>
-              Awarded Graduate Digital Research Fellowship,
-              Queensland University of Technology, 2021.
-            </li>
-            <li>
-              Research Partner, 2021 ARDC Grant,
-              <em> Time Layered Cultural Map of Australia: Dark Places</em>.
-            </li>
-          </ul>
-        </div>
-
+        </section>
       </div>
     </div>
   </div>
 </section>
+
 
 
            <section id="credits">
