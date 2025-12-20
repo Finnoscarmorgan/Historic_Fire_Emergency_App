@@ -44,73 +44,163 @@ export default function DataPage() {
   <h3 className="text-xl font-semibold mb-3">Understanding the dataset</h3>
 
   <details className="rounded-md border border-surface-border bg-surface-0 p-4">
-    <summary className="cursor-pointer text-sm font-semibold text-brand-dark">
-      View dataset explainer
-    </summary>
+  <summary className="cursor-pointer text-sm font-semibold text-brand-dark">
+    View dataset explainer
+  </summary>
 
-    <div className="mt-4 space-y-4">
-         <p className="text-sm leading-relaxed text-gray-800">
-        This web application visualises a subset of a larger bushfire dataset. Both datasets are archived on Zenodo, with the subset used here listed as the first dataset. Detailed information about the second, more comprehensive dataset is provided here.    </p>
-      <p className="text-sm leading-relaxed text-gray-800">
-        This section provides an overview of the fields contained within the dataset and explains how each variable should be interpreted. The dataset comprises extracted placenames associated with historical bushfire reporting
-        Placename coordinates are derived from the Gazetteer of Historical Australian Placenames (GHAP),
-        hosted by the Time Layered Cultural Map of Australia:{" "}
-        <a
-          href="https://www.tlcmap.org/ghap/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-brand-blue hover:underline pointer-events-auto"
-        >
-          https://www.tlcmap.org/ghap/
-        </a>
-        .
-      </p>
+  <div className="mt-4 space-y-6">
+    <p className="text-sm leading-relaxed text-gray-800">
+      This web application visualises a subset of a larger bushfire dataset.
+      Both datasets are archived on Zenodo, with the subset used here listed as
+      the first dataset. Detailed information about the second, more
+      comprehensive dataset is provided there.
+    </p>
 
-      <div className="space-y-2">
-        <h3 className="text-lg font-semibold">Key fields</h3>
-        <ul className="list-disc list-inside text-sm text-gray-800 space-y-1">
-          <li><span className="font-semibold">Index</span>: Index value for each record.</li>
-          <li><span className="font-semibold">article_id</span>: Unique identifier for a newspaper article (the same identifier indicates the same article).</li>
-          <li><span className="font-semibold">article_placename</span>: Placename extracted from the article in reference to bushfires. Each placename can be treated as a reported bushfire occurrence. Many articles contain multiple placenames.</li>
-          <li><span className="font-semibold">filename_2</span>: This field records the Trove generated identifier for each article extract, with an additional element such as “(1 of 1)” or “(1 of 2)”. These naming conventions reflect an internal processing step in which full newspaper articles were segmented into smaller text chunks of approximately 600 characters. The numbering indicates the number of occurrences of the term bush-fire within the article</li>
-          <li><span className="font-semibold">Longitude</span> and <span className="font-semibold">Latitude</span>: Point coordinate assigned to the extracted placename.</li>
-          <li><span className="font-semibold">State_2</span>: State in which the placename is located (for example VIC, NSW). “No best estimate” indicates insufficient gazetteer evidence to assign a state.</li>
-          <li><span className="font-semibold">n_results</span>: Number of gazetteer entries returned for the placename.</li>
-          <li><span className="font-semibold">winnerPct</span>: Confidence rating for the selected state assignment, based on the distribution of <span className="font-semibold">n_results</span> across states.</li>
-          <li><span className="font-semibold">searchType</span>: Whether the placename match is exact or fuzzy.</li>
-          <li><span className="font-semibold">Threshold</span>: Levenshtein similarity threshold used for fuzzy matching between <span className="font-semibold">article_placename</span> and gazetteer placenames.</li>
-          <li><span className="font-semibold">Latitude_newspaper</span> and <span className="font-semibold">Longitude_newspaper</span>: Point coordinates for the newspaper’s publication location.</li>
-          <li><span className="font-semibold">Place</span>: Publication location of the newspaper.</li>
-          <li><span className="font-semibold">Newspaper_title</span>: Title of the newspaper.</li>
-          <li><span className="font-semibold">State</span>: State of publication of the newspaper.</li>
-          <li><span className="font-semibold">Title</span>: Title of the newspaper article.</li>
-          <li><span className="font-semibold">Newspaper_id</span>: Trove identifier for the newspaper.</li>
-          <li><span className="font-semibold">Page</span>: Page number of the article.</li>
-          <li><span className="font-semibold">Date</span>: Publication date.</li>
-          <li><span className="font-semibold">Category</span>: Item category (these records are articles).</li>
-          <li><span className="font-semibold">Words</span>: Word count for the newspaper article.</li>
-          <li><span className="font-semibold">Illustrated</span>: Whether illustrations are present.</li>
-          <li><span className="font-semibold">Corrections</span>: Number of community corrections recorded in Trove.</li>
-          <li><span className="font-semibold">Snippet</span>: Short excerpt from the article.</li>
-          <li><span className="font-semibold">url</span>: Link to the article record.</li>
-          <li><span className="font-semibold">page_url</span>: Direct link to the page of the newspaper issue.</li>
-        </ul>
-      </div>
+    <p className="text-sm leading-relaxed text-gray-800">
+      This section outlines the fields contained within the dataset and explains
+      how each variable should be interpreted. Placename coordinates are derived
+      from the Gazetteer of Historical Australian Placenames (GHAP), hosted by
+      the Time Layered Cultural Map of Australia:{" "}
+      <a
+        href="https://www.tlcmap.org/ghap/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-brand-blue hover:underline pointer-events-auto"
+      >
+        https://www.tlcmap.org/ghap/
+      </a>
+      .
+    </p>
 
-      
+    {/* Key fields table */}
+    <div>
+      <h3 className="text-lg font-semibold mb-2">Key fields</h3>
 
-      <div className="space-y-2">
-        <h3 className="text-lg font-semibold">Quality control fields</h3>
-        <p className="text-sm leading-relaxed text-gray-800">
-          The following fields were generated for internal validation of coordinate assignment and are not required for most users:
-        </p>
-        <ul className="list-disc list-inside text-sm text-gray-800 space-y-1">
-          <li><span className="font-semibold">Mean_median_dist</span>: Internal measure used to check coordinate consistency across returned gazetteer entries.</li>
-          <li><span className="font-semibold">Median_median_dist</span>: Internal measure used to check median distance across returned gazetteer entries. Values greater than 1 indicate ambiguity due to multiple distinct locations sharing the same name.</li>
-        </ul>
+      <div className="overflow-x-auto">
+        <table className="w-full border border-surface-border text-sm">
+          <thead className="bg-surface-50">
+            <tr>
+              <th className="text-left font-semibold px-3 py-2 border-b border-surface-border w-1/3">
+                Field
+              </th>
+              <th className="text-left font-semibold px-3 py-2 border-b border-surface-border">
+                Description
+              </th>
+            </tr>
+          </thead>
+          <tbody className="text-gray-800">
+            <tr className="border-b border-surface-border">
+              <td className="px-3 py-2 font-semibold">Index</td>
+              <td className="px-3 py-2">Index value for each record.</td>
+            </tr>
+            <tr className="border-b border-surface-border">
+              <td className="px-3 py-2 font-semibold">article_id</td>
+              <td className="px-3 py-2">
+                Unique identifier for a newspaper article. The same identifier
+                indicates the same article.
+              </td>
+            </tr>
+            <tr className="border-b border-surface-border">
+              <td className="px-3 py-2 font-semibold">article_placename</td>
+              <td className="px-3 py-2">
+                Placename extracted from the article in reference to bushfires.
+                Each placename can be treated as a reported bushfire occurrence.
+                Articles may contain multiple placenames.
+              </td>
+            </tr>
+            <tr className="border-b border-surface-border">
+              <td className="px-3 py-2 font-semibold">filename_2</td>
+              <td className="px-3 py-2">
+                Trove-generated identifier for each article extract, including
+                segmentation markers such as “(1 of 2)”. These reflect internal
+                text chunking during processing.
+              </td>
+            </tr>
+            <tr className="border-b border-surface-border">
+              <td className="px-3 py-2 font-semibold">Longitude, Latitude</td>
+              <td className="px-3 py-2">
+                Approximate point coordinates assigned to the extracted
+                placename.
+              </td>
+            </tr>
+            <tr className="border-b border-surface-border">
+              <td className="px-3 py-2 font-semibold">State_2</td>
+              <td className="px-3 py-2">
+                State in which the placename is located (for example VIC, NSW).
+                “No best estimate” indicates insufficient gazetteer evidence.
+              </td>
+            </tr>
+            <tr className="border-b border-surface-border">
+              <td className="px-3 py-2 font-semibold">n_results</td>
+              <td className="px-3 py-2">
+                Number of gazetteer entries returned for the placename.
+              </td>
+            </tr>
+            <tr className="border-b border-surface-border">
+              <td className="px-3 py-2 font-semibold">winnerPct</td>
+              <td className="px-3 py-2">
+                Confidence rating for the selected state assignment, based on the
+                distribution of results across states.
+              </td>
+            </tr>
+            <tr className="border-b border-surface-border">
+              <td className="px-3 py-2 font-semibold">searchType</td>
+              <td className="px-3 py-2">
+                Indicates whether placename matching was exact or fuzzy.
+              </td>
+            </tr>
+            <tr className="border-b border-surface-border">
+              <td className="px-3 py-2 font-semibold">Threshold</td>
+              <td className="px-3 py-2">
+                Levenshtein similarity threshold used for fuzzy matching.
+              </td>
+            </tr>
+            <tr className="border-b border-surface-border">
+              <td className="px-3 py-2 font-semibold">Date</td>
+              <td className="px-3 py-2">Publication date of the article.</td>
+            </tr>
+            <tr>
+              <td className="px-3 py-2 font-semibold">url, page_url</td>
+              <td className="px-3 py-2">
+                Links to the article record and the specific newspaper page.
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-  </details>
+
+    {/* Quality control fields */}
+    <div>
+      <h3 className="text-lg font-semibold mb-2">Quality control fields</h3>
+      <p className="text-sm leading-relaxed text-gray-800 mb-2">
+        These fields were generated for internal validation and are not required
+        for most users.
+      </p>
+
+      <table className="w-full border border-surface-border text-sm">
+        <tbody>
+          <tr className="border-b border-surface-border">
+            <td className="px-3 py-2 font-semibold w-1/3">Mean_median_dist</td>
+            <td className="px-3 py-2">
+              Internal measure used to check coordinate consistency across
+              returned gazetteer entries.
+            </td>
+          </tr>
+          <tr>
+            <td className="px-3 py-2 font-semibold">Median_median_dist</td>
+            <td className="px-3 py-2">
+              Median distance across returned gazetteer entries. Values greater
+              than 1 indicate ambiguity due to multiple distinct locations
+              sharing the same name.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</details>
+
 </section>
 
           
