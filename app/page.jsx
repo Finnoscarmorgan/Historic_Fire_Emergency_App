@@ -268,6 +268,41 @@ const fireIcons = useMemo(() => {
 }, [clusters, zoom, cluster]);
   return (
     <div id="map" className="relative h-screen">
+          {/* Mobile-only notice */}
+    {/* Mobile-only notice */}
+{/* Mobile-only notice */}
+<div className="fixed inset-0 z-50 flex items-center justify-center bg-white sm:hidden">
+  <div className="max-w-sm px-6 text-center">
+    <div className="mb-4 flex justify-center">
+      <svg
+        className="h-10 w-10 text-yellow-500"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"
+        />
+      </svg>
+    </div>
+
+    <h1 className="mb-3 text-xl font-semibold">Desktop required</h1>
+
+    <p className="text-sm leading-relaxed text-gray-700">
+      Please load <span className="font-medium">www.historicfiresnearme.com</span> on a desktop computer. This website is currently being developed for mobile phones.
+    </p>
+
+    <p className="mt-3 text-xs text-gray-500">
+      This message is shown intentionally. The site is not experiencing an error.
+    </p>
+  </div>
+</div>
+
+
       <MapProvider>
         {/*<DeckGL initialViewState={initialView} controller layers={layer ? [layer] : []} REMOVED THIS */}
        <DeckGL
